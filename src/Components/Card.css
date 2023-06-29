@@ -1,0 +1,30 @@
+  .favButton{
+    width: 100%;
+  }
+  
+  .card:hover{
+    border: 0.5px solid rgb(254, 254, 252);
+    color: white;
+  }
+  
+  .CardBody{
+    text-align: center;
+    text-overflow: ellipsis;
+  }
+  
+  .title{
+    height: 2rem;
+  }
+
+  .ImgCard{
+    max-width: 100%;
+    max-height: 10%;
+  }
+
+  .cardLink:hover{
+    color:white;
+  }
+
+  .ImgCard {
+    border-radius: 0.4rem;
+  }
