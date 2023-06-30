@@ -26,17 +26,14 @@ const  { id } = useParams();
     setDentista(dentistaCargado);
   }, []);
 
-  // Consumiendo el parametro dinamico de la URL deberan hacer un fetch a un user en especific
   return (
     <div>
       <h1>Detalles del Dentista </h1>
       <div className='centrado'>
         <Card name={dentista.name} username={dentista.email} id={dentista.phone} >
           {dentista.website}
-        </Card  >
+        </Card>
       </div>
-      {/* aqui deberan renderizar la informacion en detalle de un user en especifico */}
-      {/* Deberan mostrar el name - email - phone - website por cada user en especifico */}
     </div>
   )
 }

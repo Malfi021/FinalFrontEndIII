@@ -2,24 +2,24 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./Card.css";
 import { FaHeart } from "react-icons/fa";
+import { useGlobalStates } from "../Context/global.context";
 
 const Card = ({ name, username, id }) => {
-  const favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
-  const esFavorito = favoritos.some((favorito) => favorito.id === id);
 
-  const addFav = () => {
-    const index = favoritos.findIndex((favorito) => favorito.id === id);
+  const {favDentist, dispatchfav} = useGlobalStates()
+  let isFav = favDentist.some(dentist => dentist.id === id)
 
-    if (index !== -1) {
-      // El favorito ya existe, eliminarlo del array
-      favoritos.splice(index, 1);
-    } else {
-      // El favorito no existe, agregarlo al array
-      favoritos.push({ name, username, id });
-    }
+  const AddFavs = (name, username, id) => {
+    dispatchfav({
+      type: "ADD",
+      payload: {name, username,id}})
+  }
 
-    localStorage.setItem("favoritos", JSON.stringify(favoritos));
-  };
+  const RemoveFavs = (id) => {
+    dispatchfav({
+      type: "REMOVE",
+      payload: {id}})
+  }
 
   return (
     <div className="card">
@@ -31,19 +31,16 @@ const Card = ({ name, username, id }) => {
       <div className="CardBody">
         <h3>{name}</h3>
         <h4>{username}</h4>
-        <h5>{id}</h5>
+        {/* <h5>{id}</h5> */}
       </div>
       <Link to={`/dentist/${id}`} className="cardLink">
         Detalle
       </Link>
-      <button onClick={addFav} className="favButton">
-        Favorito {esFavorito ? <FaHeart style={{ color: 'red', fontSize: '14px' }} /> : <FaHeart style={{ color: 'grey', fontSize: '14px' }} />}
-      </button>
+      {isFav ? (
+        <button className="favButton" onClick={() => RemoveFavs(id)}> Quitar Favorito <FaHeart style={{ color: 'red', fontSize: '14px' }}/> </button>) : (<button className="favButton" onClick={() => AddFavs(name, username, id)}> Agregar Favorito <FaHeart style={{ color: 'grey', fontSize: '14px' }}/> </button>)}
     </div>
   );
 };
 
 export default Card;
 
-//ver css centrado
-//ver padding footer

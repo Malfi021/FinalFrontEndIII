@@ -1,22 +1,11 @@
 import React, { useState } from 'react'
 import Card from '../Components/Card'
-import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
-//Este componente debera ser estilado como "dark" o "light" dependiendo del theme del Context
+import { useGlobalStates } from '../Context/global.context';
 
 const Home = () => {
-  const[odonto, setOdonto] = useState([]);
-
-  const getOdonto = async()=>{
-    const res = await fetch("https://jsonplaceholder.typicode.com/users")
-    const data = await res.json()
-    setOdonto(data)
-  }
-
-  useEffect(()=>{
-    getOdonto()
-  });
+  
+  const {odonto} = useGlobalStates()
 
   return (
     <main className="" >
@@ -24,13 +13,10 @@ const Home = () => {
       <div className='card-grid'>
         {odonto.length
         ? odonto.map(odontologo => (
-          <Link to={`/dentist/${odontologo.id}`} key={odontologo.id}>  
-              <Card name={odontologo.name} username={odontologo.username} id={odontologo.id}  />
-          </Link>
+          <Card name={odontologo.name} username={odontologo.username} id={odontologo.id}  />
         ))
         : null
         }
-        {/* Aqui deberias renderizar las cards */}   {/* RENDERIZAN */}
       </div>
     </main>
   )

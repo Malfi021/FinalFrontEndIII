@@ -1,6 +1,11 @@
 .footerWrapper {
     margin-top: auto;
   }
+
+.dark .footerWrapper {
+  background-color:rgb(26, 24, 24);
+}
+
   
 .top {
     text-transform: uppercase;

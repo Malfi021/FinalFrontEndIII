@@ -1,16 +1,38 @@
-import { createContext, useState } from "react";
+import React, { createContext, useState, useEffect, useReducer, useContext } from "react";
+import {favsReducer} from '../Reducers/favsReducer';
  
 export const ContextGlobal = createContext();
 
-//export const initialState = {theme: "", data: []};
+export const ContextProvider = ({ children }) => {
 
-// export const ContextProvider = ({ children }) => {
+    const initFavs = (state) =>{
+        return localStorage.getItem("favs") ? JSON.parse(localStorage.getItem("favs")): state;
+    }
 
-//   Aqui deberan implementar la logica propia del Context, utilizando el hook useMemo
+    const[odonto, setOdonto] = useState([]);
+    const[favDentist, dispatchfav] = useReducer(favsReducer,[],initFavs)
 
-//   return (
-//     <ContextGlobal.Provider>
-//       {children}
-//     </ContextGlobal.Provider>
-//   );
-// };
+      const getOdonto = async()=>{
+        const res = await fetch("https://jsonplaceholder.typicode.com/users")
+        const data = await res.json()
+        setOdonto(data)
+    }
+
+    useEffect(()=>{
+        getOdonto()
+    });
+
+    useEffect(()=>{
+        localStorage.setItem("favs",JSON.stringify(favDentist))
+    },[favDentist]);
+
+  return (
+    <ContextGlobal.Provider value={{odonto,favDentist,dispatchfav}}>
+      {children}
+    </ContextGlobal.Provider>
+  );
+};
+
+export const useGlobalStates = () =>{
+    return useContext(ContextGlobal)
+}
